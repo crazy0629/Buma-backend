@@ -181,6 +181,7 @@ export const findReferenceArticles = async (vectors: any, data: any) => {
 };
 
 export const findReference = async (req: Request, res: Response) => {
+  console.log("123123123");
   const refStr = req.body.refStr;
   try {
     const splitter = new MarkdownTextSplitter();
@@ -196,7 +197,7 @@ export const findReference = async (req: Request, res: Response) => {
             return item.articleId;
           })
           .slice(0, 5);
-
+        console.log("1111111", articleIdArray);
         const query = {
           where: {
             embeded: {
@@ -207,6 +208,7 @@ export const findReference = async (req: Request, res: Response) => {
 
         Article.findAll(query)
           .then((data) => {
+            console.log("222222222", data);
             let result: any = [];
             articleIdArray.map((item: number) => {
               data.map((element: any) => {
