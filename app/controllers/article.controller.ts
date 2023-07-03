@@ -201,6 +201,9 @@ export const findReference = async (req: Request, res: Response) => {
             embeded: {
               [Op.eq]: true,
             },
+            author: {
+              [Op.eq]: parseInt(req.body.userid),
+            },
           },
         };
 

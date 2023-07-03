@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Op } from "sequelize";
 import bcrypt from "bcrypt";
+import CryptoJS from "crypto-js";
 
 import { User } from "../models/auth.model";
 import { generatePswHash, generateToken } from "../service/helpers";
@@ -23,6 +24,9 @@ export const signUp = async (req: Request, res: Response) => {
         const newUser = {
           email: req.body.email,
           password: hashPassword,
+          apiKey: CryptoJS.SHA256(`${req.body.email}:${hashPassword}`).toString(
+            CryptoJS.enc.Hex
+          ),
         };
         User.create(newUser)
           .then((data) => {
@@ -61,6 +65,7 @@ export const signIn = (req: Request, res: Response) => {
               return res.json({
                 success: true,
                 token: generateToken(user.toJSON()),
+                apiKey: user.toJSON().apiKey,
               });
             } else {
               res.json({ success: false, message: "Password is not correct" });

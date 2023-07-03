@@ -8,4 +8,7 @@ export const User = db.sequelize.define("user", {
   password: {
     type: DataTypes.STRING,
   },
+  apiKey: {
+    type: DataTypes.STRING,
+  },
 });
